@@ -976,12 +976,13 @@ document.getElementById('intakeForm').addEventListener('submit', async function(
 
     if (!res.ok) throw new Error(await res.text());
 
-    // fire zapier webhook
-    await fetch('https://hooks.zapier.com/hooks/catch/3127991/uxaojgd/', {
+    // fire zapier webhook (no-cors mode to avoid CORS blocking)
+    fetch('https://hooks.zapier.com/hooks/catch/3127991/uxaojgd/', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify(payload)
-    }).catch(() => {}); // non-blocking, don't fail form if webhook fails
+    }).catch(() => {});
 
     document.getElementById('formPage').style.display = 'none';
     document.getElementById('successScreen').classList.add('visible');
