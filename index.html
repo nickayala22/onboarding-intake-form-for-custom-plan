@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Capital Positioning Intake — Align Equity Group</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Barlow:wght@300;400;500&family=Barlow+Condensed:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black: #080808;
+  --off-black: #0e0e0e;
+  --panel: #111111;
+  --rule: rgba(255,255,255,0.07);
+  --rule-gold: rgba(185,148,82,0.3);
+  --gold: #b99452;
+  --gold-bright: #d4aa5e;
+  --gold-muted: rgba(185,148,82,0.5);
+  --white: #f0ece4;
+  --white-dim: rgba(240,236,228,0.55);
+  --white-faint: rgba(240,236,228,0.2);
+  --red-accent: #8b2a2a;
+  --mono: 'Barlow Condensed', sans-serif;
+  --serif: 'Playfair Display', serif;
+  --sans: 'Barlow', sans-serif;
+}
+
+html { scroll-behavior: smooth; background: var(--black); }
+
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--sans);
+  font-weight: 300;
+  min-height: 100vh;
+  overflow-x: hidden;
+  cursor: default;
+}
+
+/* ── GRAIN OVERLAY ── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.025;
+  pointer-events: none;
+  z-index: 999;
+}
+
+/* ── AMBIENT GLOW ── */
+.glow-top {
+  position: fixed;
+  top: -200px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  height: 400px;
+  background: radial-gradient(ellipse, rgba(185,148,82,0.07) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── TOP BAR ── */
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 48px;
+  height: 64px;
+  border-bottom: 1px solid var(--rule);
+  background: rgba(8,8,8,0.92);
+  backdrop-filter: blur(12px);
+}
+
+.topbar-logo {
+  font-family: var(--mono);
+  font-weight: 400;
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.topbar-right {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--white-faint);
+}
+
+/* ── PROGRESS BAR ── */
+.progress-bar {
+  position: fixed;
+  top: 64px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--rule);
+  z-index: 100;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold) 0%, var(--gold-bright) 100%);
+  width: 0%;
+  transition: width 0.4s ease;
+}
+
+/* ── LAYOUT ── */
+.page {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 140px 48px 160px;
+}
+
+/* ── HERO ── */
+.hero {
+  margin-bottom: 80px;
+  opacity: 0;
+  animation: rise 1s cubic-bezier(0.16,1,0.3,1) 0.1s forwards;
+}
+
+.hero-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.hero-label::before,
+.hero-label::after {
+  content: '';
+  flex: 0 0 auto;
+}
+
+.hero-label::before {
+  display: block;
+  width: 1px;
+  height: 32px;
+  background: linear-gradient(to bottom, transparent, var(--gold));
+}
+
+.hero-label::after {
+  display: block;
+  width: 40px;
+  height: 1px;
+  background: linear-gradient(to right, var(--gold), transparent);
+}
+
+.hero h1 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(36px, 5.5vw, 56px);
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  color: var(--white);
+  margin-bottom: 28px;
+}
+
+.hero h1 em {
+  font-style: italic;
+  color: var(--gold-bright);
+}
+
+.hero-body {
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--white-dim);
+  max-width: 560px;
+  border-left: 1px solid var(--rule-gold);
+  padding-left: 24px;
+}
+
+/* ── SECTION ── */
+.section {
+  margin-bottom: 72px;
+  opacity: 0;
+  animation: rise 0.7s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+
+.section-header {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+  margin-bottom: 32px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.section-number {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+  color: var(--gold-muted);
+  flex-shrink: 0;
+}
+
+.section-title {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--white-dim);
+}
+
+/* ── FIELD ── */
+.field {
+  margin-bottom: 32px;
+}
+
+.field-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.field-required {
+  color: var(--red-accent);
+  font-size: 9px;
+}
+
+.field-note {
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--white-faint);
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="date"],
+textarea,
+select {
+  width: 100%;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-bottom: 1px solid rgba(185,148,82,0.25);
+  color: var(--white);
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 300;
+  padding: 14px 16px;
+  border-radius: 0;
+  outline: none;
+  transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="date"]:focus,
+textarea:focus,
+select:focus {
+  border-color: rgba(185,148,82,0.5);
+  border-bottom-color: var(--gold);
+  background: rgba(185,148,82,0.03);
+  box-shadow: 0 1px 0 0 var(--gold);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: rgba(240,236,228,0.18);
+  font-style: italic;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 108px;
+  line-height: 1.75;
+}
+
+select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23b99452' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  padding-right: 40px;
+  cursor: pointer;
+}
+
+select option {
+  background: #111;
+  color: var(--white);
+}
+
+/* ── GRID ── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+/* ── RADIO GROUP ── */
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.radio-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 16px;
+  border: 1px solid transparent;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  position: relative;
+}
+
+.radio-option:hover {
+  background: rgba(185,148,82,0.04);
+  border-color: rgba(185,148,82,0.15);
+}
+
+.radio-option input[type="radio"] {
+  display: none;
+}
+
+.radio-custom {
+  width: 16px;
+  height: 16px;
+  border: 1px solid rgba(185,148,82,0.4);
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 1px;
+  position: relative;
+  transition: border-color 0.2s;
+}
+
+.radio-custom::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--gold);
+  transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+.radio-option input:checked ~ .radio-custom {
+  border-color: var(--gold);
+}
+
+.radio-option input:checked ~ .radio-custom::after {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.radio-option.selected {
+  background: rgba(185,148,82,0.05);
+  border-color: rgba(185,148,82,0.2);
+}
+
+.radio-text {
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--white-dim);
+  line-height: 1.5;
+}
+
+.radio-text strong {
+  display: block;
+  font-weight: 400;
+  color: var(--white);
+  font-size: 13px;
+  margin-bottom: 2px;
+}
+
+/* ── DIVIDER ── */
+.rule {
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--rule-gold), transparent);
+  margin: 64px 0;
+}
+
+/* ── CONDITIONAL ── */
+.conditional {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.4s ease, opacity 0.3s ease, margin 0.3s ease;
+  margin-top: 0;
+}
+
+.conditional.open {
+  max-height: 400px;
+  opacity: 1;
+  margin-top: 24px;
+}
+
+/* ── SUBMIT SECTION ── */
+.submit-section {
+  margin-top: 80px;
+  opacity: 0;
+  animation: rise 0.6s ease forwards;
+}
+
+.submit-note {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--white-faint);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.submit-note::before {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 1px;
+  background: var(--white-faint);
+}
+
+.btn-submit {
+  width: 100%;
+  background: transparent;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  padding: 22px 40px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: color 0.3s;
+}
+
+.btn-submit::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+  z-index: 0;
+}
+
+.btn-submit:hover::before { transform: scaleX(1); }
+.btn-submit:hover { color: var(--black); }
+
+.btn-submit span {
+  position: relative;
+  z-index: 1;
+}
+
+.btn-submit:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.btn-submit:disabled::before { display: none; }
+
+.form-error {
+  font-family: var(--sans);
+  font-size: 12px;
+  color: #e57373;
+  margin-top: 16px;
+  text-align: center;
+}
+
+/* ── VALIDATION STATE ── */
+.field-invalid input,
+.field-invalid textarea,
+.field-invalid select {
+  border-color: rgba(220,80,80,0.5) !important;
+  border-bottom-color: #e57373 !important;
+}
+
+/* ── SUCCESS ── */
+.success-screen {
+  display: none;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  padding: 80px 48px;
+  position: relative;
+  z-index: 1;
+}
+
+.success-screen.visible {
+  display: flex;
+}
+
+.success-emblem {
+  width: 64px;
+  height: 64px;
+  border: 1px solid var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 40px;
+  position: relative;
+}
+
+.success-emblem::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border: 1px solid rgba(185,148,82,0.2);
+}
+
+.success-emblem svg {
+  width: 24px;
+  height: 24px;
+  stroke: var(--gold);
+  fill: none;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.success-screen h2 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 36px;
+  margin-bottom: 20px;
+  color: var(--white);
+}
+
+.success-screen p {
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--white-dim);
+  max-width: 440px;
+  line-height: 1.85;
+}
+
+.success-divider {
+  width: 1px;
+  height: 48px;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+  margin: 32px auto;
+}
+
+.success-meta {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold-muted);
+}
+
+/* ── ANIMATIONS ── */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.section:nth-child(1) { animation-delay: 0.15s; }
+.section:nth-child(2) { animation-delay: 0.22s; }
+.section:nth-child(3) { animation-delay: 0.29s; }
+.section:nth-child(4) { animation-delay: 0.36s; }
+.section:nth-child(5) { animation-delay: 0.43s; }
+.section:nth-child(6) { animation-delay: 0.50s; }
+.submit-section { animation-delay: 0.55s; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  .topbar { padding: 0 24px; }
+  .page { padding: 120px 24px 120px; }
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  .topbar-right { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="glow-top"></div>
+
+<!-- TOP BAR -->
+<header class="topbar">
+  <div class="topbar-logo">Align Equity Group</div>
+  <div class="topbar-right">Capital Positioning Intake &nbsp;&bull;&nbsp; Confidential</div>
+</header>
+
+<!-- PROGRESS -->
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+<!-- MAIN FORM PAGE -->
+<div class="page" id="formPage">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-label">Capital Unlocked &nbsp; Private Intake</div>
+    <h1>Your <em>Custom</em><br>Capital Raise<br>Roadmap Starts Here.</h1>
+    <p class="hero-body">Complete this intake now, while the call is still fresh. Every field informs the specificity of what we build for you. Generic answers produce generic roadmaps. The more precisely you describe your actual situation, the more useful this becomes.</p>
+  </div>
+
+  <form id="intakeForm" novalidate>
+
+    <!-- SECTION 1: IDENTITY -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-number">01</span>
+        <span class="section-title">Contact & Call Reference</span>
+      </div>
+
+      <div class="grid-2">
+        <div class="field" data-required>
+          <div class="field-label">Full Name <span class="field-required">Required</span></div>
+          <input type="text" id="fullName" placeholder="First and last">
+        </div>
+        <div class="field" data-required>
+          <div class="field-label">Email Address <span class="field-required">Required</span></div>
+          <div class="field-note">Same address used on the onboarding call</div>
+          <input type="email" id="email" placeholder="you@yourdomain.com">
+        </div>
+      </div>
+
+      <div class="field" data-required>
+        <div class="field-label">Date of Your Onboarding Call <span class="field-required">Required</span></div>
+        <input type="text" id="callDate" placeholder="MM/DD/YYYY">
+      </div>
+    </div>
+
+    <!-- SECTION 2: THE RAISE -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-number">02</span>
+        <span class="section-title">The Raise</span>
+      </div>
+
+      <div class="field" data-required>
+        <div class="field-label">What specifically are you raising for? <span class="field-required">Required</span></div>
+        <div class="field-note">Describe the deal, project, or business in plain terms. Asset class, geography, stage, thesis. Be specific.</div>
+        <textarea id="raiseDescription" placeholder="e.g. Acquiring a 72-unit workforce housing asset in Columbus, OH. Value-add through unit renovations and expense recapture. 5-year hold targeting a 1.9x equity multiple at exit..."></textarea>
+      </div>
+
+      <div class="grid-3">
+        <div class="field" data-required>
+          <div class="field-label">Raise Target <span class="field-required">Required</span></div>
+          <input type="text" id="raiseAmount" placeholder="e.g. $4.2M">
+        </div>
+        <div class="field" data-required>
+          <div class="field-label">Close Deadline <span class="field-required">Required</span></div>
+          <input type="text" id="timeline" placeholder="e.g. 75 days">
+        </div>
+        <div class="field" data-required>
+          <div class="field-label">Raise Type <span class="field-required">Required</span></div>
+          <select id="raiseType">
+            <option value="" disabled selected>Select</option>
+            <option>Equity</option>
+            <option>Preferred Equity</option>
+            <option>Mezzanine Debt</option>
+            <option>Senior Debt</option>
+            <option>JV Equity</option>
+            <option>Fund</option>
+            <option>SAFE / Convertible Note</option>
+            <option>Mixed / Other</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field" data-required>
+        <div class="field-label">Current Capital Stack <span class="field-required">Required</span></div>
+        <div class="field-note">What is already committed or in place? Senior debt amount, equity pledged, any other tranches. What exactly is the hole you are filling?</div>
+        <textarea id="capitalStack" placeholder="e.g. $8.2M senior debt secured via Arbor, $600K from GP partners committed. Need $2.4M LP equity to close. No mezzanine layer."></textarea>
+      </div>
+    </div>
+
+    <!-- SECTION 3: TRACK RECORD -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-number">03</span>
+        <span class="section-title">Track Record & Prior Capital</span>
+      </div>
+
+      <div class="field" data-required>
+        <div class="field-label">Describe your track record <span class="field-required">Required</span></div>
+        <div class="field-note">Deals closed, total capital deployed, exits completed, asset classes. If you are earlier stage, say so and describe what you have done. Do not embellish. We need the real picture.</div>
+        <textarea id="trackRecord" placeholder="e.g. Three multifamily acquisitions 2019–2023. $14.2M total capitalization. One full cycle exit (sold 2022, 2.1x EM). Two current holds performing at underwrite. No institutional LP relationships yet."></textarea>
+      </div>
+
+      <div class="field" data-required>
+        <div class="field-label">Prior outside capital raised? <span class="field-required">Required</span></div>
+
+        <div class="radio-group" id="priorCapGroup">
+          <label class="radio-option" onclick="selectRadio(this,'priorExp','no')">
+            <input type="radio" name="priorExp" value="no">
+            <span class="radio-custom"></span>
+            <span class="radio-text"><strong>No outside capital</strong>Self-funded or personal network only</span>
+          </label>
+          <label class="radio-option" onclick="selectRadio(this,'priorExp','friends_family')">
+            <input type="radio" name="priorExp" value="friends_family">
+            <span class="radio-custom"></span>
+            <span class="radio-text"><strong>Friends and family</strong>Informal raises, no institutional or accredited investor relationships</span>
+          </label>
+          <label class="radio-option" onclick="selectRadio(this,'priorExp','private_lenders')">
+            <input type="radio" name="priorExp" value="private_lenders">
+            <span class="radio-custom"></span>
+            <span class="radio-text"><strong>Private lenders / HNW individuals</strong>Accredited investors, private money, no institutional</span>
+          </label>
+          <label class="radio-option" onclick="selectRadio(this,'priorExp','institutional')">
+            <input type="radio" name="priorExp" value="institutional">
+            <span class="radio-custom"></span>
+            <span class="radio-text"><strong>Institutional capital</strong>Family offices, fund managers, institutional lenders</span>
+          </label>
+          <label class="radio-option" onclick="selectRadio(this,'priorExp','multiple')">
+            <input type="radio" name="priorExp" value="multiple">
+            <span class="radio-custom"></span>
+            <span class="radio-text"><strong>Multiple types</strong>Mix of the above</span>
+          </label>
+        </div>
+
+        <div class="conditional" id="priorAmountCond">
+          <div class="field">
+            <div class="field-label">How much have you raised, and from whom?</div>
+            <div class="field-note">Approximate totals, investor types. What was that experience like? What worked, what did not.</div>
+            <textarea id="priorAmount" placeholder="e.g. Raised $1.1M across two deals from four private lenders. All were existing relationships. Never had to pitch cold. This is the first time I'm going outside that circle."></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 4: INVESTOR RELATIONSHIPS -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-number">04</span>
+        <span class="section-title">Investor Relationships & Pipeline</span>
+      </div>
+
+      <div class="field" data-required>
+        <div class="field-label">Who is your most likely investor for this raise? <span class="field-required">Required</span></div>
+
+        <div class="radio-group">
+          <label class="radio-option" onclick="selectRadio(this,'likelyInvestor','warm_known')">
+            <input type="radio" name="likelyInvestor" value="warm_known">
+            <span class="radio-custom"></span>
+            <span class="radio-text"><strong>Someone I already know</strong>Existing relationship, just need to make the ask</span>
+          </label>
+          <label class="radio-option" onclick="selectRadio(this,'likelyInvestor','warm_referral')">
+            <input type="radio" name="likelyInvestor" value="warm_referral">
+            <span class="radio-custom"></span>
+            <span class="radio-text"><strong>Referral from existing network</strong>Warm intro, not a direct relationship yet</span>
+          </label>
+          <label class="radio-option" onclick="selectRadio(this,'likelyInvestor','cold_accredited')">
+            <input type="radio" name="likelyInvestor" value="cold_accredited">
+            <span class="radio-custom"></span>
+            <span class="radio-text"><strong>Cold outreach to accredited investors</strong>Building net new relationships from scratch</span>
+          </label>
+          <label class="radio-option" onclick="selectRadio(this,'likelyInvestor','family_office')">
+            <input type="radio" name="likelyInvestor" value="family_office">
+            <span class="radio-custom"></span>
+            <span class="radio-text"><strong>Family offices or institutional</strong>Targeting larger, more sophisticated capital partners</span>
+          </label>
+          <label class="radio-option" onclick="selectRadio(this,'likelyInvestor','mix')">
+            <input type="radio" name="likelyInvestor" value="mix">
+            <span class="radio-custom"></span>
+            <span class="radio-text"><strong>Mix of the above</strong></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="field" data-required>
+        <div class="field-label">Have you already approached investors for this raise? <span class="field-required">Required</span></div>
+        <div class="field-note">If yes, what happened? Soft commitments, rejections, ghosted conversations. Be specific.</div>
+        <textarea id="priorOutreach" placeholder="e.g. Had two calls with previous LPs. One said timing is off, one is still in review. Haven't gone outside my existing list yet."></textarea>
+      </div>
+    </div>
+
+    <!-- SECTION 5: THE GAP -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-number">05</span>
+        <span class="section-title">Constraints & Credibility Gap</span>
+      </div>
+
+      <div class="field" data-required>
+        <div class="field-label">What is your biggest obstacle right now? <span class="field-required">Required</span></div>
+        <div class="field-note">Do not describe a general challenge. Describe your actual constraint in this raise, right now. Is it relationships, positioning, structure, timeline, pitch, or something else?</div>
+        <textarea id="biggestObstacle" placeholder="e.g. My track record is real but I've never pitched it formally. I don't have a deck. I also don't have a warm path to family offices and I'm not sure if my deal is structured attractively enough for that capital."></textarea>
+      </div>
+
+      <div class="field" data-required>
+        <div class="field-label">What is the weakest part of your story? <span class="field-required">Required</span></div>
+        <div class="field-note">This is the single most important question on this form. A serious LP will find it. What is the thing you are least confident defending in a due diligence conversation?</div>
+        <textarea id="weakestPart" placeholder="e.g. I've never had a full cycle exit. My projections are based on market comps not my own operating history. And my co-GP doesn't have a strong track record either."></textarea>
+      </div>
+
+      <div class="field" data-required>
+        <div class="field-label">What does success look like in 90 days? <span class="field-required">Required</span></div>
+        <div class="field-note">Specific. Not "I want to close my raise." What has to happen, and by when, for this to be a win?</div>
+        <textarea id="successDefinition" placeholder="e.g. $2.4M committed by Day 60, wires by Day 75. Three to five qualified LP relationships established that I can bring future deals to."></textarea>
+      </div>
+
+      <div class="field" data-required>
+        <div class="field-label">What are you still unsure about? <span class="field-required">Required</span></div>
+        <div class="field-note">One question you walked away from the call still holding. Structure, strategy, sequencing, positioning, anything.</div>
+        <textarea id="openQuestion" placeholder="e.g. I'm not sure whether to approach family offices directly or go through a placement agent given my raise size. And I don't know how to handle the conversation about my lack of exits."></textarea>
+      </div>
+    </div>
+
+    <!-- SUBMIT -->
+    <div class="submit-section">
+      <div class="submit-note">All responses are confidential and used solely for roadmap generation</div>
+      <button type="submit" class="btn-submit" id="submitBtn"><span>Submit Intake &amp; Generate My Roadmap</span></button>
+      <div class="form-error" id="formError"></div>
+    </div>
+
+  </form>
+</div>
+
+<!-- SUCCESS SCREEN -->
+<div class="success-screen" id="successScreen">
+  <div class="success-emblem">
+    <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+  </div>
+  <div class="success-meta">Intake Received &nbsp;&bull;&nbsp; Align Equity Group</div>
+  <div class="success-divider"></div>
+  <h2>You're in the queue.</h2>
+  <p>Your roadmap is being drafted now based on your intake and your onboarding call. Nick reviews every roadmap personally before it's sent. Expect it within 24 hours. Check your inbox.</p>
+</div>
+
+<script>
+// ── CONFIG ──────────────────────────────────────────────
+const SUPABASE_URL     = 'https://qgtqxxzhreanodbnqunf.supabase.co';
+const SUPABASE_ANON    = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFndHF4eHpocmVhbm9kYm5xdW5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMyMzc1NjMsImV4cCI6MjA4ODgxMzU2M30.OAeUuZvFhFHYfWl1PoHkBmQ7k4pCiYRSmAvYFU3wlNw';
+const TABLE            = 'roadmap_intakes';
+// ────────────────────────────────────────────────────────
+
+// progress bar
+function updateProgress() {
+  const fields = document.querySelectorAll('[data-required] input, [data-required] textarea, [data-required] select');
+  let filled = 0;
+  fields.forEach(f => { if (f.value.trim()) filled++; });
+
+  // check radios
+  const radioGroups = ['priorExp', 'likelyInvestor'];
+  radioGroups.forEach(name => {
+    if (document.querySelector(`input[name="${name}"]:checked`)) filled++;
+  });
+
+  const total = fields.length + radioGroups.length;
+  const pct = Math.min(100, Math.round((filled / total) * 100));
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+
+document.querySelectorAll('input, textarea, select').forEach(el => {
+  el.addEventListener('input', updateProgress);
+  el.addEventListener('change', updateProgress);
+});
+
+// radio selection
+function selectRadio(label, name, value) {
+  document.querySelectorAll(`input[name="${name}"]`).forEach(r => {
+    r.closest('.radio-option').classList.remove('selected');
+  });
+  label.classList.add('selected');
+  label.querySelector('input').checked = true;
+
+  // conditional: prior amount
+  if (name === 'priorExp') {
+    const cond = document.getElementById('priorAmountCond');
+    cond.classList.toggle('open', value !== 'no');
+  }
+
+  updateProgress();
+}
+
+// form submit
+document.getElementById('intakeForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  const btn  = document.getElementById('submitBtn');
+  const errEl = document.getElementById('formError');
+  errEl.textContent = '';
+
+  // validate required text fields
+  const textFields = [
+    'fullName','email','callDate','raiseDescription','raiseAmount',
+    'timeline','raiseType','capitalStack','trackRecord',
+    'priorOutreach','biggestObstacle','weakestPart',
+    'successDefinition','openQuestion'
+  ];
+
+  let valid = true;
+  textFields.forEach(id => {
+    const el = document.getElementById(id);
+    const parent = el.closest('.field');
+    if (!el.value.trim()) {
+      parent && parent.classList.add('field-invalid');
+      valid = false;
+    } else {
+      parent && parent.classList.remove('field-invalid');
+    }
+  });
+
+  // validate radios
+  if (!document.querySelector('input[name="priorExp"]:checked')) valid = false;
+  if (!document.querySelector('input[name="likelyInvestor"]:checked')) valid = false;
+
+  if (!valid) {
+    errEl.textContent = 'Please complete all required fields before submitting.';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    return;
+  }
+
+  btn.disabled = true;
+  btn.querySelector('span').textContent = 'Submitting...';
+
+  const payload = {
+    full_name:          document.getElementById('fullName').value.trim(),
+    email:              document.getElementById('email').value.trim().toLowerCase(),
+    call_date:          document.getElementById('callDate').value.trim(),
+    raise_description:  document.getElementById('raiseDescription').value.trim(),
+    raise_amount:       document.getElementById('raiseAmount').value.trim(),
+    timeline:           document.getElementById('timeline').value.trim(),
+    raise_type:         document.getElementById('raiseType').value,
+    capital_stack:      document.getElementById('capitalStack').value.trim(),
+    track_record:       document.getElementById('trackRecord').value.trim(),
+    prior_experience:   document.querySelector('input[name="priorExp"]:checked')?.value || '',
+    prior_amount_detail: document.getElementById('priorAmount').value.trim(),
+    likely_investor:    document.querySelector('input[name="likelyInvestor"]:checked')?.value || '',
+    prior_outreach:     document.getElementById('priorOutreach').value.trim(),
+    biggest_obstacle:   document.getElementById('biggestObstacle').value.trim(),
+    weakest_part:       document.getElementById('weakestPart').value.trim(),
+    success_definition: document.getElementById('successDefinition').value.trim(),
+    open_question:      document.getElementById('openQuestion').value.trim(),
+    status:             'pending',
+    created_at:         new Date().toISOString()
+  };
+
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/${TABLE}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_ANON,
+        'Authorization': `Bearer ${SUPABASE_ANON}`,
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (!res.ok) throw new Error(await res.text());
+
+    document.getElementById('formPage').style.display = 'none';
+    document.getElementById('successScreen').classList.add('visible');
+    window.scrollTo({ top: 0 });
+
+  } catch (err) {
+    console.error(err);
+    errEl.textContent = 'Submission failed. Please try again or email support@alignequitygroup.com.';
+    btn.disabled = false;
+    btn.querySelector('span').textContent = 'Submit Intake & Generate My Roadmap';
+  }
+});
+
+// clear validation on input
+document.querySelectorAll('input, textarea, select').forEach(el => {
+  el.addEventListener('input', () => {
+    el.closest('.field')?.classList.remove('field-invalid');
+    document.getElementById('formError').textContent = '';
+  });
+});
+</script>
+</body>
+</html>
